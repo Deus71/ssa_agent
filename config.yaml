@@ -1,0 +1,11 @@
+satellites:
+- name: STARLINK-1001
+  norad_id: 44932
+- name: COSMOS-2542
+  norad_id: 44797
+- name: USA-245
+  norad_id: 39232
+selected_mode: all_to_all
+selected_satellite: COSMOS-2542
+tle_provider: celestrak
+tle_group: stations

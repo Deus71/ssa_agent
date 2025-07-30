@@ -1,0 +1,54 @@
+from sgp4.api import Satrec
+from sgp4.api import jday
+from datetime import datetime, timedelta
+from itertools import combinations
+import math
+
+def parse_tle_lines(tle_text):
+    lines = tle_text.strip().split("\n")
+    catalog = {}
+    for i in range(0, len(lines), 3):
+        name = lines[i].strip()
+        line1 = lines[i+1].strip()
+        line2 = lines[i+2].strip()
+        sat = Satrec.twoline2rv(line1, line2)
+        catalog[name] = sat
+    return catalog
+
+def distance_km(pos1, pos2):
+    return math.sqrt(sum((a - b) ** 2 for a, b in zip(pos1, pos2)))
+
+def run_proximity_check(tle_text, config):
+    catalog = parse_tle_lines(tle_text)
+    mode = config.get("selected_mode", "all_to_all")
+    selected_name = config.get("selected_satellite")
+    step_minutes = 10
+    threshold_km = 10
+    duration_hours = 6
+
+    now = datetime.utcnow()
+    dt_range = [now + timedelta(minutes=i * step_minutes) for i in range(int(60 / step_minutes * duration_hours))]
+
+    sat_items = list(catalog.items())
+
+    if mode == "one_vs_all" and selected_name in catalog:
+        base_sat = catalog[selected_name]
+        for name, sat in sat_items:
+            if name == selected_name:
+                continue
+            for dt in dt_range:
+                jd, fr = jday(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second + dt.microsecond * 1e-6)
+                _, ra = base_sat.sgp4(jd, fr)
+                _, rb = sat.sgp4(jd, fr)
+                d = distance_km(ra, rb)
+                if d < threshold_km:
+                    print(f"[WARNING] {dt.isoformat()} — {selected_name} vs {name}: distance = {d:.2f} km")
+    else:
+        for (name_a, sat_a), (name_b, sat_b) in combinations(sat_items, 2):
+            for dt in dt_range:
+                jd, fr = jday(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second + dt.microsecond * 1e-6)
+                _, ra, _ = sat_a.sgp4(jd, fr)
+                _, rb, _ = sat_b.sgp4(jd, fr)
+                d = distance_km(ra, rb)
+                if d < threshold_km:
+                    print(f"[WARNING] {dt.isoformat()} — {name_a} vs {name_b}: distance = {d:.2f} km")
