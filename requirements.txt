@@ -3,3 +3,6 @@ pyyaml
 sgp4
 numpy
 fpdf
+skyfield
+tk
+yaml
