@@ -66,4 +66,8 @@ Uwaga:
 - W razie problemów – użyj alternatywnego źródła Celestrak.
 
 Autor: Tadeusz Polanowski
+<<<<<<< HEAD
 Data: Lipiec 2025
+=======
+Data: Lipiec 2025
+>>>>>>> 872881a7faea43b2a9f56ee36e514bdc6ffebf70

@@ -6,6 +6,6 @@ satellites:
 - name: USA-245
   norad_id: 39232
 selected_mode: all_to_all
-selected_satellite: COSMOS-2542
+selected_satellite: All-to-All
 tle_provider: celestrak
-tle_group: stations
+tle_group: military

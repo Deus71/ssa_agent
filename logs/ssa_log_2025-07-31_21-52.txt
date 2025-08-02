@@ -1,0 +1,12 @@
+[INFO] Analiza przeprowadzona: 2025-07-31_21-52
+[INFO] Dane TLE pobrane i sprawdzone.
+
+[INFO] Rozpoczęto analizę o 2025-07-31T19:52:19.708585 UTC
+[INFO] Grupa danych TLE: military
+[INFO] Tryb: all_to_all
+[INFO] Liczba satelitów: 2
+[INFO] Sprawdzane satelity:
+ - SAR-LUPE 3
+ - SAPPHIRE
+[INFO] Liczba par do porównania: 1
+[INFO] Nie wykryto niebezpiecznych zbliżeń.

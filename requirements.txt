@@ -2,3 +2,4 @@ requests
 pyyaml
 sgp4
 numpy
+fpdf
